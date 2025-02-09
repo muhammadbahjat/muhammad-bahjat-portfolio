@@ -162,9 +162,10 @@ export default function Chatbot() {
           >
             {[
               "Tell me about your AI projects",
-              "Who is Muhammad Bahjat?",
-              "How can I collaborate with Bahjat?",
-              "How can I contact Bahjat?",
+              "How many years of experience do you have?",
+              "Tell me about Yourself",
+              "Are You open to Relocate?",
+              "How can I contact You?",
             ].map((option) => (
               <motion.button
                 key={option}
