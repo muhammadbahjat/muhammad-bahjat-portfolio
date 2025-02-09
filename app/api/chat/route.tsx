@@ -1,61 +1,31 @@
 import { NextResponse } from "next/server";
-import { spawn } from "child_process";
-import path from "path";
 
 export async function POST(req: Request) {
   try {
     const { message, sessionId, history } = await req.json();
 
-    return new Promise((resolve, reject) => {
-      const pythonProcess = spawn("python", [
-        path.resolve(process.cwd(), "app/api/chat/app.py"),
+    const response = await fetch('https://muhammad-bahjat-backend-service-production.up.railway.app/api/chat', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
         message,
-        sessionId,
-        JSON.stringify(history || []),
-      ]);
+        session_id: sessionId,
+        history: history || []
+      })
+    });
 
-      let responseData = "";
-
-      pythonProcess.stdout.on("data", (data) => {
-        responseData += data.toString();
-      });
-
-      pythonProcess.stderr.on("data", (data) => {
-        console.error("Python Error:", data.toString());
-      });
-
-      pythonProcess.on("close", (code) => {
-        try {
-          console.log("Raw Python response:", responseData);
-          const parsedResponse = JSON.parse(responseData.trim());
-          console.log("Parsed response:", parsedResponse);
-          
-          if (parsedResponse.error) {
-            resolve(
-              NextResponse.json({
-                error: parsedResponse.error,
-                history: parsedResponse.history || []
-              })
-            );
-          } else {
-            resolve(
-              NextResponse.json({
-                response: parsedResponse.response,
-                history: parsedResponse.history || []
-              })
-            );
-          }
-        } catch (err) {
-          console.error("Error parsing AI response:", err);
-          reject(
-            NextResponse.json({ error: "Invalid AI response format" }, { status: 500 })
-          );
-        }
-      });
+    const data = await response.json();
+    
+    return NextResponse.json({
+      response: data.response,
+      history: data.history
     });
   } catch (error) {
+    console.error("Error:", error);
     return NextResponse.json(
-      { error: "Server error while processing AI request" },
+      { error: "Failed to connect to AI service" },
       { status: 500 }
     );
   }

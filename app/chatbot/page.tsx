@@ -57,7 +57,7 @@ export default function Chatbot() {
         body: JSON.stringify({ 
           message,
           sessionId,
-          history: newMessages.map(msg => ({
+          history: messages.map(msg => ({
             role: msg.role === "user" ? "user" : "assistant",
             content: msg.content
           }))
@@ -65,10 +65,8 @@ export default function Chatbot() {
       });
 
       const data = await response.json();
-      console.log("API Response:", data);
       
       if (data.response) {
-        console.log("Setting messages with AI response:", data.response);
         setMessages([
           ...newMessages,
           { 
@@ -78,7 +76,6 @@ export default function Chatbot() {
           }
         ]);
       } else if (data.error) {
-        console.log("Error from API:", data.error);
         setMessages([
           ...newMessages,
           { 
@@ -89,12 +86,11 @@ export default function Chatbot() {
         ]);
       }
     } catch (error) {
-      console.error("Fetch error:", error);
       setMessages([
         ...newMessages,
         { 
           id: Date.now().toString(), 
-          content: "Error connecting to AI.", 
+          content: "Error connecting to AI service.",
           role: "bot" 
         }
       ]);
