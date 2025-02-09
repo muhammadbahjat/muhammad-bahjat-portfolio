@@ -8,6 +8,7 @@ import LoadingAnimation from "./components/LoadingAnimation"
 import BackgroundAnimation from "./components/BackgroundAnimation"
 import type React from "react"
 import { useState, useEffect } from "react"
+import Head from "next/head"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -22,14 +23,21 @@ export default function RootLayout({
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false)
-    }, 2000) // 2 seconds loading time
+    }, 4000) // 4 seconds loading time
 
     return () => clearTimeout(timer)
   }, [])
 
   return (
     <html lang="en" className={darkMode ? "dark" : ""}>
-      <body className={`${inter.className} min-h-screen flex flex-col bg-gray-50 dark:bg-gray-900`}>
+      <Head>
+        <title>Muhammad Bahjat - Portfolio</title>
+        <link
+          rel="icon"
+          href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>"
+        />
+      </Head>
+      <body className={`${inter.className} min-h-screen flex flex-col`}>
         {isLoading ? (
           <LoadingAnimation />
         ) : (

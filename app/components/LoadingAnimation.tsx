@@ -1,8 +1,38 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+
+// Different loading messages for the top and bottom lines
+const loadingMessagesTop = [
+  "🛠️ Fine-tuning intelligence...",
+  "🤖 Warming up the AI circuits...",
+  "🔍 Searching for the best AI solutions...",
+  "🚀 Optimizing AI models...",
+  "🧠 Teaching AI to think like Bahjat...",
+  "📡 Connecting to AI network...",
+  "⚙️ Engineering something amazing...",
+];
+
+const loadingMessagesBottom = [
+  "Almost there!",
+  "Finalizing AI logic...",
+  "Just a moment...",
+  "Fine-tuning the response...",
+  "AI system coming online...",
+  "Adjusting neural networks...",
+  "Preparing something cool...",
+];
 
 const LoadingAnimation = () => {
+  const [messageTop, setMessageTop] = useState("");
+  const [messageBottom, setMessageBottom] = useState("");
+
+  useEffect(() => {
+    setMessageTop(loadingMessagesTop[Math.floor(Math.random() * loadingMessagesTop.length)]);
+    setMessageBottom(loadingMessagesBottom[Math.floor(Math.random() * loadingMessagesBottom.length)]);
+  }, []);
+
   return (
     <div className="fixed inset-0 bg-black flex items-center justify-center overflow-hidden">
       {/* Glowing Particle Effects */}
@@ -53,9 +83,9 @@ const LoadingAnimation = () => {
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="text-5xl md:text-6xl font-extrabold text-white mb-4 tracking-widest"
+          className="text-3xl md:text-6xl font-extrabold text-white mb-4 tracking-widest"
         >
-          🚀 Building the Future with AI...
+          {messageTop}
         </motion.h1>
         <motion.p
           initial={{ opacity: 0 }}
@@ -63,7 +93,7 @@ const LoadingAnimation = () => {
           transition={{ duration: 0.6, delay: 1 }}
           className="text-gray-300 mt-4 text-xl md:text-2xl"
         >
-          Crafting intelligent automation, one algorithm at a time.
+          {messageBottom}
         </motion.p>
 
         {/* Animated Circular Loader */}

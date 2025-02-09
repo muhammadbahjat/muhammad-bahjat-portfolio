@@ -27,7 +27,7 @@ export default function Home() {
         className="text-center pt-16"
       >
         <Image
-          src="/1.jpg"
+          src="/5.jpg"
           alt="Syed Muhammad Bahjat"
           width={200}
           height={200}
